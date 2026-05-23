@@ -2,11 +2,11 @@
 
 import { useAppSelector, useAppDispatch } from "@/store"
 import { closeAlert } from "@/store/slices/uiSlice"
-import { Alert } from "@/components/alert"
+import { CustomDialog } from "@/components/custom-dialog"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 
-export function AlertProvider() {
+export function CustomDialogProvider() {
   const dispatch = useAppDispatch()
   const router = useRouter()
 
@@ -18,6 +18,9 @@ export function AlertProvider() {
     buttonText,
     autoClose,
     redirectTo,
+    timeout,
+    showStatus,
+    invert,
   } = useAppSelector((state) => state.ui.dialog)
 
   useEffect(() => {
@@ -29,13 +32,13 @@ export function AlertProvider() {
         if (redirectTo) {
           router.push(redirectTo)
         }
-      }, 1500)
+      }, timeout)
     }
 
     return () => {
       if (timer) clearTimeout(timer)
     }
-  }, [isOpen, autoClose, redirectTo, dispatch, router])
+  }, [isOpen, autoClose, redirectTo, dispatch, router, timeout])
 
   const handleClose = () => {
     dispatch(closeAlert())
@@ -45,15 +48,19 @@ export function AlertProvider() {
   }
 
   return (
-    <Alert
-      open={isOpen}
-      onOpenChange={(open) => {
-        if (!open) handleClose()
-      }}
-      type={type}
-      title={title}
-      description={description}
-      buttonText={buttonText}
-    />
+    <>
+      <CustomDialog
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) handleClose()
+        }}
+        type={type}
+        title={title}
+        description={description}
+        buttonText={buttonText}
+        showStatus={showStatus}
+        invert={invert}
+      />
+    </>
   )
 }

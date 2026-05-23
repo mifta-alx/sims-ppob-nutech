@@ -3,7 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils";
 import { ReduxProvider } from "@/components/redux-provider";
-import { AlertProvider } from "@/components/layout/alert-provider";
+import { CustomDialogProvider } from "@/components/layout/custom-dialog-provider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'})
 
@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <body>
         <ReduxProvider>
-            <AlertProvider/>
+            <CustomDialogProvider/>
               {children}
         </ReduxProvider>
       </body>
