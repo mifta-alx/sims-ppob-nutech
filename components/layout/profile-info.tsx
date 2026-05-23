@@ -3,8 +3,8 @@ import { Eye, EyeOff } from "lucide-react"
 import Image from "next/image"
 import { memo, useState } from "react"
 
-const ProfileInfo = memo(() => {
-    const [showPassword, setShowPassword] = useState(false)
+const ProfileInfo = memo(({ loading }: { loading: boolean }) => {
+    const [showBalance, setShowBalance] = useState(false)
     return (
         <div className="flex flex-col md:flex-row gap-4 justify-between itemsc-center">
             <div className="flex flex-col">
@@ -36,10 +36,10 @@ const ProfileInfo = memo(() => {
                         </p>
                         <button
                             type="button"
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => setShowBalance(!showBalance)}
                             className="text-background px-1"
                         >
-                            {showPassword ? (
+                            {showBalance ? (
                                 <EyeOff className="size-2" />
                             ) : (
                                 <Eye className="size-2" />

@@ -1,7 +1,7 @@
 "use client"
 
-import { Logo } from "./logo"
-import { NavMenu } from "./layout/nav-menu"
+import { Logo } from "../logo"
+import { NavMenu } from "./nav-menu"
 import Link from "next/link"
 
 export function SiteHeader() {

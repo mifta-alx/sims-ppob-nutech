@@ -1,8 +1,9 @@
 import { Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import { ReduxProvider } from "@/components/redux-provider";
+import { AlertProvider } from "@/components/layout/alert-provider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'})
 
@@ -28,7 +29,10 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ReduxProvider>
+            <AlertProvider/>
+              {children}
+        </ReduxProvider>
       </body>
     </html>
   )
