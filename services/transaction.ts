@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios"
 import { ApiResponse } from "@/types/api"
-import { BalanceResponseData, TopUpPayload } from "@/types/transaction"
+import { BalanceResponseData, TopUpPayload, TransactionResponseData } from "@/types/transaction"
 import { AxiosError } from "axios"
 
 interface ValidationError {
@@ -58,5 +58,22 @@ export async function topUp(
       description:
         err.response?.data?.message || "Terjadi kesalahan saat top up saldo",
     }
+  }
+}
+
+export async function getTransactions({ offset = 0, limit = 5 }: { offset?: number; limit?: number }) {
+  try {
+    const response = await api.get<ApiResponse<TransactionResponseData>>(
+      `/transaction/history?offset=${offset}&limit=${limit}`
+    )
+
+    return response.data
+  } catch (error) {
+    const err = error as AxiosError<ApiResponse<TransactionResponseData>>
+
+    throw new Error(
+      err.response?.data?.message ||
+        "Terjadi kesalahan saat mendapatkan data transaksi"
+    )
   }
 }

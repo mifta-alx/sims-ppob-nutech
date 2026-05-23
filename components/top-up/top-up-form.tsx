@@ -95,7 +95,7 @@ const TopUpForm = memo(() => {
       if (res?.data?.balance !== undefined) {
         dispatch(setBalance(res.data.balance))
       }
-
+      setNominal("")
       dispatch(
         openAlert({
           type: "success",
@@ -137,7 +137,7 @@ const TopUpForm = memo(() => {
         />
       </div>
       <div className="col-span-1">
-        <NominalField setNominal={handleSelectNominal} />
+        <NominalField setNominal={handleSelectNominal} disabled={loading} />
       </div>
       <ConfirmationDialog
         open={isConfirmOpen}

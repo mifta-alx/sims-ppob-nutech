@@ -4,12 +4,15 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Banner } from "@/types/information"
 import Image from "next/image"
 import { getBannerService } from "@/services/information"
+import { openAlert } from "@/store/slices/uiSlice"
+import { useAppDispatch } from "@/store"
 
 const BannerSkeleton = () => {
   return <Skeleton className="flex h-[114px] w-64 shrink-0 rounded-sm" />
 }
 
 const BannerList = memo(() => {
+  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true)
   const [banners, setBanners] = useState<Banner[]>([])
 
@@ -18,8 +21,16 @@ const BannerList = memo(() => {
       try {
         const res = await getBannerService()
         setBanners(res.data)
-      } catch (error) {
-        console.error(error)
+      } catch (error: any) {
+        dispatch(
+          openAlert({
+            type: "error",
+            title: "Fetch Gagal!",
+            description: error.message,
+            buttonText: "Tutup",
+            autoClose: true,
+          })
+        )
       } finally {
         setLoading(false)
       }

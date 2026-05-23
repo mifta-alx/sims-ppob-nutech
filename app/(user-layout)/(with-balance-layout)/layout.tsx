@@ -4,6 +4,7 @@ import { getProfile } from "@/services/profile"
 import { getBalance } from "@/services/transaction"
 import { useAppDispatch } from "@/store"
 import { setBalance, setProfile } from "@/store/slices/authSlice"
+import { openAlert } from "@/store/slices/uiSlice"
 import { useEffect, useState } from "react"
 
 const WithBalanceLayout = ({
@@ -17,15 +18,23 @@ const WithBalanceLayout = ({
   useEffect(() => {
     async function fetchLayoutData() {
       try {
-        const [profileRes, balanceRes] = await Promise.all([ 
+        const [profileRes, balanceRes] = await Promise.all([
           getProfile(),
           getBalance(),
         ])
 
         dispatch(setProfile(profileRes.data))
         dispatch(setBalance(balanceRes.data.balance))
-      } catch (error) {
-        console.error("Gagal memuat data layout:", error)
+      } catch (error: any) {
+        dispatch(
+          openAlert({
+            type: "error",
+            title: "Fetch Gagal!",
+            description: error.message,
+            buttonText: "Tutup",
+            autoClose: true,
+          })
+        )
       } finally {
         setLoading(false)
       }

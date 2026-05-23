@@ -1,6 +1,8 @@
 "use client"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getLayananService } from "@/services/information"
+import { useAppDispatch } from "@/store"
+import { openAlert } from "@/store/slices/uiSlice"
 import { ServiceItem } from "@/types/information"
 import Image from "next/image"
 import { useEffect, useState } from "react"
@@ -32,6 +34,7 @@ const Service = ({ service }: { service: ServiceItem }) => {
 }
 
 const ServiceList = () => {
+  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true)
   const [services, setServices] = useState<ServiceItem[]>([])
 
@@ -39,11 +42,17 @@ const ServiceList = () => {
     async function fetchServices() {
       try {
         const res = await getLayananService()
-        console.log(res)
-
         setServices(res.data)
-      } catch (error) {
-        console.error(error)
+      } catch (error: any) {
+        dispatch(
+          openAlert({
+            type: "error",
+            title: "Fetch Gagal!",
+            description: error.message,
+            buttonText: "Tutup",
+            autoClose: true,
+          })
+        )
       } finally {
         setLoading(false)
       }
