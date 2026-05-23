@@ -10,9 +10,7 @@ interface ValidationError {
   message: string
 }
 
-export async function register(
-  payload: RegisterPayload
-): Promise<ApiResponse> {
+export async function register(payload: RegisterPayload): Promise<ApiResponse> {
   const errors: ValidationError[] = []
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -21,6 +19,20 @@ export async function register(
     errors.push({
       field: "email",
       message: "Format email tidak valid",
+    })
+  }
+
+  if (!payload.first_name) {
+    errors.push({
+      field: "first_name",
+      message: "Nama depan wajib diisi",
+    })
+  }
+
+  if (!payload.last_name) {
+    errors.push({
+      field: "last_name",
+      message: "Nama belakang wajib diisi",
     })
   }
 

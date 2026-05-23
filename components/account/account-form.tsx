@@ -155,7 +155,6 @@ const AccountForm = ({
             onChange={handleChange}
             errors={errors}
             icon={<User />}
-            required
             disabled={!isEditing}
           />
         </Field>
@@ -169,7 +168,6 @@ const AccountForm = ({
             onChange={handleChange}
             errors={errors}
             icon={<User />}
-            required
             disabled={!isEditing}
           />
         </Field>

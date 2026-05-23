@@ -2,6 +2,10 @@ import { api } from "@/lib/axios"
 import { ApiResponse } from "@/types/api"
 import { ProfileResponseData, UpdateProfilePayload } from "@/types/profile"
 import { AxiosError } from "axios"
+interface ValidationError {
+  field: string
+  message: string
+}
 
 export async function getProfile() {
   try {
@@ -19,6 +23,26 @@ export async function getProfile() {
 }
 
 export async function updateProfile(payload: UpdateProfilePayload) {
+  const errors: ValidationError[] = []
+
+  if (!payload.first_name) {
+    errors.push({
+      field: "first_name",
+      message: "Nama depan wajib diisi",
+    })
+  }
+
+  if (!payload.last_name) {
+    errors.push({
+      field: "last_name",
+      message: "Nama belakang wajib diisi",
+    })
+  }
+
+  if (errors.length > 0) {
+    throw errors
+  }
+
   try {
     const response = await api.put<ApiResponse<ProfileResponseData>>(
       "/profile/update",
