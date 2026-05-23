@@ -11,7 +11,7 @@ import {
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string 
-  errors: Record<string, string>
+  errors?: Record<string, string>
   icon?: React.ReactNode 
 }
 

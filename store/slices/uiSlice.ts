@@ -7,6 +7,9 @@ interface DialogConfig {
   buttonText?: string
   autoClose?: boolean
   redirectTo?: string
+  timeout?: number
+  showStatus?: boolean
+  invert?: boolean
 }
 
 interface UIState {
@@ -18,6 +21,9 @@ interface UIState {
     buttonText: string
     autoClose?: boolean
     redirectTo?: string | null
+    timeout?: number
+    showStatus?: boolean
+    invert?: boolean
   }
 }
 
@@ -30,6 +36,9 @@ const initialState: UIState = {
     buttonText: "Close",
     autoClose: false,
     redirectTo: null,
+    timeout: 1500,
+    showStatus: false,
+    invert: false,
   },
 }
 
@@ -48,6 +57,9 @@ const uiSlice = createSlice({
           (action.payload.type === "success" ? "Selesai" : "Tutup"),
         autoClose: action.payload.autoClose ?? false,
         redirectTo: action.payload.redirectTo || null,
+        timeout: action.payload.timeout || 1500,
+        showStatus: action.payload.showStatus ?? false,
+        invert: action.payload.invert ?? false,
       }
     },
     closeAlert: (state) => {

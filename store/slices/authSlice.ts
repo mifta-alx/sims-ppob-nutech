@@ -10,14 +10,14 @@ interface UserProfile {
 interface AuthState {
   token: string | null
   profile: UserProfile | null
-  balance: number | null
+  balance: number | 0
   isAuthenticated: boolean
 }
 
 const initialState: AuthState = {
   token: null,
   profile: null,
-  balance: null,
+  balance: 0,
   isAuthenticated: false,
 }
 
@@ -38,7 +38,7 @@ const authSlice = createSlice({
     logout(state) {
       state.token = null
       state.profile = null
-      state.balance = null
+      state.balance = 0
       state.isAuthenticated = false
     },
   },

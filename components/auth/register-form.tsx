@@ -8,7 +8,7 @@ import { Logo } from "@/components/logo"
 import PasswordInput from "@/components/password-input"
 import { useState } from "react"
 import { formatValidationErrors } from "@/lib/validations"
-import { registerService } from "@/services/auth/register"
+import { register } from "@/services/auth/register"
 import FormInput from "@/components/form-input"
 import { openAlert } from "@/store/slices/uiSlice"
 import { useAppDispatch } from "@/store"
@@ -51,7 +51,7 @@ const RegisterForm = ({
     setLoading(true)
 
     try {
-      await registerService(formData)
+      await register(formData)
 
       dispatch(
         openAlert({

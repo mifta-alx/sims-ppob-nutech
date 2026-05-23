@@ -9,7 +9,7 @@ import PasswordInput from "@/components/password-input"
 import { useState } from "react"
 import { useAppDispatch } from "@/store"
 import FormInput from "@/components/form-input"
-import { loginService } from "@/services/auth/login"
+import { login } from "@/services/auth/login"
 import { setCredentials } from "@/store/slices/authSlice"
 import { openAlert } from "@/store/slices/uiSlice"
 import { useRouter } from "next/navigation"
@@ -51,7 +51,7 @@ const LoginForm = ({
     event.preventDefault()
     setLoading(true)
     try {
-      const response = await loginService(formData)
+      const response = await login(formData)
       const token = response.data.token
       Cookies.set("token", token, {
         expires: 1,

@@ -10,7 +10,7 @@ interface ValidationError {
   message: string
 }
 
-export async function registerService(
+export async function register(
   payload: RegisterPayload
 ): Promise<ApiResponse> {
   const errors: ValidationError[] = []

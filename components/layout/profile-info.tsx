@@ -1,62 +1,55 @@
 "use client"
-import { Eye, EyeOff } from "lucide-react"
 import Image from "next/image"
-import { memo, useState } from "react"
+import { memo } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useAppSelector } from "@/store"
+import BalanceInfo from "./balance-info"
+
+const ProfileSkeleton = () => {
+  return (
+    <div className="itemsc-center flex flex-col justify-between gap-4 md:flex-row">
+      <div className="flex flex-col">
+        <Skeleton className="mb-4 size-14 rounded-full" />
+        <Skeleton className="mb-2 h-5 w-32 rounded-sm" />
+        <Skeleton className="h-8 w-68 rounded-sm" />
+      </div>
+      <Skeleton className="flex h-[138px] rounded-2xl md:w-1/2" />
+    </div>
+  )
+}
 
 const ProfileInfo = memo(({ loading }: { loading: boolean }) => {
-    const [showBalance, setShowBalance] = useState(false)
-    return (
-        <div className="flex flex-col md:flex-row gap-4 justify-between itemsc-center">
-            <div className="flex flex-col">
-                <Image
-                    src="/icons/profile-photo.png"
-                    alt="profile-photo"
-                    width={70}
-                    height={70}
-                    className="size-14 mb-4"
-                />
-                <p className="text-base font-medium text-muted-foreground">
-                    Selamat datang,
-                </p>
-                <p className="text-3xl font-semibold">
-                    Kristanto Wibowo
-                </p>
-            </div>
-            <div className="relative w-full max-w-xl">
-                <div className="absolute top-5 left-5 w-full h-full flex flex-col md:gap-3">
-                    <p className="text-background text-sm font-medium">
-                        Saldo anda
-                    </p>
-                    <p className="text-background md:text-3xl font-semibold">
-                        Rp
-                    </p>
-                    <div className="flex items-center bg-primary w-fit ">
-                        <p className="text-background text-xs font-medium">
-                            Lihat saldo
-                        </p>
-                        <button
-                            type="button"
-                            onClick={() => setShowBalance(!showBalance)}
-                            className="text-background px-1"
-                        >
-                            {showBalance ? (
-                                <EyeOff className="size-2" />
-                            ) : (
-                                <Eye className="size-2" />
-                            )}
-                        </button>
-                    </div>
-                </div>
-                <Image
-                    src="/images/balance-bg.png"
-                    alt="balance-bg"
-                    width={670}
-                    height={160}
-                    className="w-full h-full object-cover"
-                />
-            </div>
-        </div>
-    )
+  const { profile, balance } = useAppSelector((state) => state.auth)
+
+  const fullName = profile
+    ? `${profile.first_name} ${profile.last_name}`
+    : "User"
+
+  const avatarSrc =
+    profile?.profile_image && !profile.profile_image.includes("null")
+      ? profile.profile_image
+      : "/icons/profile-photo.png"
+
+  return loading ? (
+    <ProfileSkeleton />
+  ) : (
+    <div className="itemsc-center flex flex-col justify-between gap-4 md:flex-row">
+      <div className="flex flex-col">
+        <Image
+          src={avatarSrc}
+          alt="profile-photo"
+          width={70}
+          height={70}
+          className="mb-4 size-14"
+        />
+        <p className="text-base font-medium text-muted-foreground">
+          Selamat datang,
+        </p>
+        <p className="text-3xl font-semibold">{fullName}</p>
+      </div>
+      <BalanceInfo balance={balance} />
+    </div>
+  )
 })
 
 ProfileInfo.displayName = "ProfileInfo"

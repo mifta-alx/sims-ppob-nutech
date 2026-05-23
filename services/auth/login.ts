@@ -9,7 +9,7 @@ interface ValidationError {
   message: string
 }
 
-export async function loginService(
+export async function login(
   payload: LoginPayload
 ): Promise<ApiResponse<LoginResponseData>> {
   const errors: ValidationError[] = []
