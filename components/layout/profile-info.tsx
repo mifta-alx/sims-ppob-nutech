@@ -33,14 +33,14 @@ const ProfileInfo = memo(({ loading }: { loading: boolean }) => {
   return loading ? (
     <ProfileSkeleton />
   ) : (
-    <div className="itemsc-center flex flex-col justify-between gap-4 md:flex-row">
+    <div className="items-center flex flex-col justify-between gap-4 md:flex-row">
       <div className="flex flex-col">
         <Image
           src={avatarSrc}
           alt="profile-photo"
           width={70}
           height={70}
-          className="mb-4 size-14"
+          className="mb-4 size-14 rounded-full"
         />
         <p className="text-base font-medium text-muted-foreground">
           Selamat datang,

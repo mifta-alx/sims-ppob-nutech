@@ -30,6 +30,7 @@ const BalanceInfo = memo(({ balance }: { balance: number | 0 }) => {
       <Image
         src="/images/balance-bg.png"
         alt="balance-bg"
+        loading="eager"
         width={670}
         height={160}
         className="h-full w-full object-cover"
