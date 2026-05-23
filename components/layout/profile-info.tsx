@@ -34,7 +34,7 @@ const ProfileInfo = memo(({ loading }: { loading: boolean }) => {
     <ProfileSkeleton />
   ) : (
     <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-      <div className="flex flex-row items-center gap-4 lg:flex-col">
+      <div className="flex flex-row items-center lg:items-start gap-4 lg:flex-col">
         <Image
           src={avatarSrc}
           alt="profile-photo"
