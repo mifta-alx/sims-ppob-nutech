@@ -35,6 +35,9 @@ const authSlice = createSlice({
     setBalance(state, action: PayloadAction<number>) {
       state.balance = action.payload
     },
+    deductBalance: (state, action: PayloadAction<number>) => {
+      state.balance -= action.payload
+    },
     logout(state) {
       state.token = null
       state.profile = null
@@ -44,6 +47,6 @@ const authSlice = createSlice({
   },
 })
 
-export const { setCredentials, setProfile, setBalance, logout } =
+export const { setCredentials, setProfile, setBalance, deductBalance, logout } =
   authSlice.actions
 export default authSlice.reducer

@@ -1,10 +1,12 @@
 "use client"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getLayananService } from "@/services/information"
-import { useAppDispatch } from "@/store"
+import { useAppDispatch, useAppSelector } from "@/store"
 import { openAlert } from "@/store/slices/uiSlice"
+import { setServices } from "@/store/slices/serviceSlice"
 import { ServiceItem } from "@/types/information"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
 const ServiceSkeleton = () => {
@@ -18,31 +20,41 @@ const ServiceSkeleton = () => {
 
 const Service = ({ service }: { service: ServiceItem }) => {
   return (
-    <div className="flex w-16 flex-col items-center gap-2">
+    <Link
+      href={`/payment/${service.service_code}`}
+      className="flex flex-col items-center gap-2"
+    >
       <Image
         src={service.service_icon}
         alt={service.service_name}
+        priority
+        unoptimized
         width={40}
         height={40}
         className="flex size-16 shrink-0 object-cover"
       />
-      <p className="text-center text-[10px] font-medium text-foreground">
+      <p className="w-16 text-center text-[10px] font-medium text-foreground">
         {service.service_name}
       </p>
-    </div>
+    </Link>
   )
 }
 
 const ServiceList = () => {
   const dispatch = useAppDispatch()
+  const { services } = useAppSelector((state) => state.service)
   const [loading, setLoading] = useState(true)
-  const [services, setServices] = useState<ServiceItem[]>([])
 
   useEffect(() => {
     async function fetchServices() {
+      if (services.length > 0) {
+        setLoading(false)
+        return
+      }
+
       try {
         const res = await getLayananService()
-        setServices(res.data)
+        dispatch(setServices(res.data))
       } catch (error: any) {
         dispatch(
           openAlert({
@@ -58,7 +70,7 @@ const ServiceList = () => {
       }
     }
     fetchServices()
-  }, [])
+  }, [dispatch, services.length])
 
   if (loading) {
     return (
@@ -71,7 +83,7 @@ const ServiceList = () => {
   }
 
   return (
-    <div className="flex flex-row flex-wrap gap-8">
+    <div className="grid grid-cols-4 lg:grid-cols-6 xl:grid-cols-12 gap-8 justify-center">
       {services.map((service) => (
         <Service key={service.service_code} service={service} />
       ))}

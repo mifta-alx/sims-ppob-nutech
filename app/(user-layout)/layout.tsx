@@ -1,6 +1,6 @@
 import {SiteHeader} from "@/components/layout/site-header"
 
-const UserLayout = ({ children }) => {
+const UserLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="[--header-height:calc(--spacing(16))] flex flex-col items-center justify-center">
       <SiteHeader />
